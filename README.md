@@ -1,2 +1,0 @@
-# dashboardjs
-Created with CodeSandbox
