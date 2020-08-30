@@ -19,7 +19,8 @@
     "react-scripts": "3.0.1",
     "react-vis": "1.11.7",
     "rebass": "4.0.7",
-    "theme-ui": "0.3.1"
+    "theme-ui": "0.3.1",
+    "thundra-trace-chart": "^0.0.17"
   },
   "devDependencies": {
     "typescript": "3.8.3"

@@ -14,7 +14,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <Helmet>
-          <title>Hello</title>
+          <title>Web page Performance Analytics</title>
           <style>
             {`html,body {
             margin: 0;

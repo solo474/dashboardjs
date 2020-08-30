@@ -1,9 +1,10 @@
-import React from "react";
+import React, { createContext, useContext, useState } from "react";
 import { Grid, Box } from "theme-ui";
 import GridLayout from "react-grid-layout";
 import dashboard from "./dashboard";
+import { TimeContext } from "../Time";
 
-const GridElement = props => {
+const GridElement = ({topBar = true,...props}) => {
   return (
     <Box
       p={0}
@@ -14,6 +15,7 @@ const GridElement = props => {
       {...props}
     >
       <Box
+        hidden={topBar === false}
         p={2}
         sx={{
           borderBottom: "1px solid #e5e5e5"
@@ -26,8 +28,7 @@ const GridElement = props => {
   );
 };
 
-class DashboardGrid extends React.Component {
-  render() {
+const DashboardGrid = () => {
     // layout is an array of objects, see the demo for more complete usage
 
     return (
@@ -37,11 +38,11 @@ class DashboardGrid extends React.Component {
           layout={dashboard.layout}
           cols={12}
           rowHeight={30}
-          width={1200}
+          width={1540}
         >
           {dashboard.layout.map(data => {
             return (
-              <GridElement key={data.i}>
+              <GridElement key={data.i} topBar={data.topBar} >
                 <data.content height={data.h * 30} width={"200"} />
               </GridElement>
             );
@@ -49,14 +50,19 @@ class DashboardGrid extends React.Component {
         </GridLayout>
       </div>
     );
-  }
 }
 
 export const Main = () => {
+  const [ timeCursor, setTimeCursor ] = useState(0);
+
   return (
     <Grid>
       <Box bg={"white"} p={10}>
-        <DashboardGrid />
+        <TimeContext.Provider value={{
+          timeCursor,
+          setTimeCursor}}>
+          <DashboardGrid />
+        </TimeContext.Provider>
       </Box>
     </Grid>
   );

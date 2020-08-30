@@ -32,7 +32,9 @@ const ActionButton = ({ id, highlight, color, size, ...remainingProps }) => {
 export const SideBar = () => {
   const { sidenav } = data.navigation;
   return (
-    <Box height={"100vh"} bg={"primary"}>
+    <Box 
+      height={"100vh"} 
+      bg={"primary"}>
       <Box p={2} />
       {sidenav.map(menu => (
         <ActionButton {...menu.icon} size={"big"} highlight={false} />
