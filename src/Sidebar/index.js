@@ -34,7 +34,9 @@ export const SideBar = () => {
   return (
     <Box 
       height={"100vh"} 
-      bg={"primary"}>
+      bg={"primary"}
+      
+      >
       <Box p={2} />
       {sidenav.map(menu => (
         <ActionButton {...menu.icon} size={"big"} highlight={false} />

@@ -15,6 +15,7 @@ export const Traces = React.memo((props) => {
         timestamp: timeing.startTime * 1000,
         duration: timeing.duration * 1000,
         serviceName: 'document',
+        color: 'green',
         tags: {
           error: false
         }
@@ -27,6 +28,7 @@ export const Traces = React.memo((props) => {
         timestamp: timeing.startTime * 1000,
         duration: (timeing.fetchStart  - timeing.startTime) * 1000,
         serviceName: 'REDIRECT',
+        color: 'blue',
         tags: {
           error: false
         }
@@ -39,6 +41,7 @@ export const Traces = React.memo((props) => {
         timestamp: timeing.domainLookupStart * 1000,
         duration: (timeing.domainLookupEnd - timeing.domainLookupStart) * 1000,
         serviceName: 'DNS',
+        color: 'hotpink',
         tags: {
           error: false
         }
@@ -51,6 +54,7 @@ export const Traces = React.memo((props) => {
         timestamp: timeing.connectStart * 1000,
         duration: (timeing.connectEnd - timeing.connectStart) * 1000,
         serviceName: 'TCP',
+        color: 'pink',
         tags: {
           error: false
         }
@@ -61,8 +65,9 @@ export const Traces = React.memo((props) => {
         id: '9400a8a9-9650-4312-9514-d4bbc1114a9f',
         name: 'http-request',
         timestamp: timeing.requestStart * 1000,
-        duration: (timeing.requestEnd - timeing.requestStart) * 1000,
+        duration: 0,
         serviceName: 'HTTP',
+        color: 'orange',
         tags: {
           error: false
         }
@@ -75,6 +80,7 @@ export const Traces = React.memo((props) => {
         timestamp: timeing.requestStart * 1000,
         duration: (timeing.responseStart - timeing.requestStart) * 1000,
         serviceName: 'HTTP',
+        color: '#00ff00',
         tags: {
           error: false
         }
@@ -87,9 +93,7 @@ export const Traces = React.memo((props) => {
         timestamp: timeing.responseStart * 1000,
         duration: (timeing.responseEnd - timeing.responseStart) * 1000,
         serviceName: 'HTTP',
-        tags: {
-          error: false
-        }
+        color: '#0000ff'
       }
     ]
 

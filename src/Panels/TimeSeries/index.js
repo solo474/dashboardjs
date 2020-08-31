@@ -1,6 +1,7 @@
 import React, { useState,useContext } from 'react';
 import { TimeContext } from '../../Time';
 import { useRandomNumber,useRandomNumbersArray } from '../../Random';
+import { Grid, Box } from 'theme-ui';
 
 import {
   XYPlot,
@@ -10,7 +11,8 @@ import {
   VerticalBarSeriesCanvas,
   LineMarkSeries,
   Crosshair,
-  LineSeries
+  LineSeries,
+  DiscreteColorLegend
 } from 'react-vis';
 
 const myDATA = [
@@ -43,21 +45,25 @@ const yDomain = myDATA.reduce(
 
 export const TimeSeries = (props) => {
 
-    const { timeCursor, setTimeCursor } = useContext(TimeContext);
+    const { timeCursor, setTimeCursor,
+      timeSelection,setTimeSelection } = useContext(TimeContext);
 
     const firstByte = useRandomNumbersArray({
         initial: 2,
         interval: 1000
     });
-    
+    const [firstByteStrokeWidth, setFirstByteStrokeWidth ]= useState('2px');
+
     const firstPaint = useRandomNumbersArray({
         initial: 2,
         interval: 1000
     });
-    
+   const [ firstPaintStrokeWidth, setFirstPaintStrokeWidth ] = useState('2px');
+
 
     return (
-      <div>
+      <Grid columns={["5fr 1fr"]} >
+        <Box>
         <XYPlot
           xType="time"
           width={props.w * 100}
@@ -65,11 +71,20 @@ export const TimeSeries = (props) => {
           yDomain={[0, 100]}
         >
   <LineSeries
-   
     color="grey"
+    strokeWidth={firstByteStrokeWidth}
     curve={'curveMonotoneX'}
     onNearestX={(datapoint)=>{
         setTimeCursor(datapoint)
+    }}
+    onSeriesClick={(datapoint)=>{
+      setTimeSelection(datapoint.x);
+    }}
+    onSeriesMouseOver={()=>{
+      setFirstByteStrokeWidth('5px');
+    }}
+    onSeriesMouseOut={()=>{
+      setFirstByteStrokeWidth('2px');
     }}
 
     data={firstByte.map( (number,index) => {
@@ -81,11 +96,20 @@ export const TimeSeries = (props) => {
 
 <LineSeries
     color="green"
+    strokeWidth={firstPaintStrokeWidth}
     curve={'curveMonotoneX'}
     onNearestX={(datapoint)=>{
         setTimeCursor(datapoint)
     }}
-
+    onSeriesClick={(datapoint)=>{
+      setTimeSelection(datapoint.x)
+    }}
+    onSeriesMouseOver={()=>{
+      setFirstPaintStrokeWidth('5px');
+    }}
+    onSeriesMouseOut={()=>{
+      setFirstPaintStrokeWidth('2px');
+    }}
     data={firstPaint.map( (number,index) => {
         return {
             x: index,
@@ -98,8 +122,21 @@ export const TimeSeries = (props) => {
           <XAxis  />
       <YAxis />
     <Crosshair values={[timeCursor]}/>
+
     </XYPlot>
-      </div>
+    </Box>
+    <Box>
+    <DiscreteColorLegend items={[{
+      title: 'Time To first byte',
+      
+    },{
+      title: 'Time to first paint',
+    }]} />
+    </Box>
+      </Grid>
     );
   }
 
+
+
+  

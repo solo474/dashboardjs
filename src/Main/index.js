@@ -1,8 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
 import { Grid, Box } from "theme-ui";
-import GridLayout from "react-grid-layout";
+import RGL, { WidthProvider} from "react-grid-layout";
+
 import dashboard from "./dashboard";
 import { TimeContext } from "../Time";
+
+const ReactGridLayout = WidthProvider(RGL);
 
 const GridElement = ({topBar = true,...props}) => {
   return (
@@ -15,6 +18,7 @@ const GridElement = ({topBar = true,...props}) => {
       {...props}
     >
       <Box
+        data-drag={'data-drag'}
         hidden={topBar === false}
         p={2}
         sx={{
@@ -33,34 +37,37 @@ const DashboardGrid = () => {
 
     return (
       <div style={{ position: "relative" }}>
-        <GridLayout
+        <ReactGridLayout
           className="layout"
           layout={dashboard.layout}
           cols={12}
           rowHeight={30}
-          width={1540}
+          draggableHandle={'[data-drag]'}
         >
           {dashboard.layout.map(data => {
             return (
               <GridElement key={data.i} topBar={data.topBar} >
-                <data.content height={data.h * 30} width={"200"} />
+                <data.content />
               </GridElement>
             );
           })}
-        </GridLayout>
+        </ReactGridLayout>
       </div>
     );
 }
 
 export const Main = () => {
   const [ timeCursor, setTimeCursor ] = useState(0);
+  const [ timeSelection, setTimeSelection ] = useState(0);
 
   return (
     <Grid>
       <Box bg={"white"} p={10}>
         <TimeContext.Provider value={{
           timeCursor,
-          setTimeCursor}}>
+          setTimeCursor,
+          timeSelection,
+          setTimeSelection}}>
           <DashboardGrid />
         </TimeContext.Provider>
       </Box>

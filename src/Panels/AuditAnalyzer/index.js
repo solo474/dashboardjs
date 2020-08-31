@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Box } from "theme-ui";
 import { Traces } from '../Traces';
+import { Opportunities } from '../Opportunities';
 
 export const AuditAnalyzer = () => {
     const [ tab, setTab ] = useState('trace');
@@ -40,7 +41,7 @@ export const AuditAnalyzer = () => {
               Insights
           </Box>: null }
          {  tab === 'opportunities' ?  <Box>
-              Opportunities
+              <Opportunities/>
           </Box>: null }
         {  tab === 'errors' ?   <Box>
               Errors

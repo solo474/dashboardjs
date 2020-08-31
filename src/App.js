@@ -22,7 +22,7 @@ export default function App() {
           }`}
           </style>
         </Helmet>
-        <Grid columns={["40px 100%"]} gap={0}>
+        <Grid columns={["40px 1fr"]} gap={0}>
           <SideBar />
           <Main />
         </Grid>
