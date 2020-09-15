@@ -9,27 +9,50 @@ import {
   VerticalGridLines
 } from "react-vis";
 
-import { SingleStat } from '../Panels/SingleStat';
-import { TimeSeries } from '../Panels/TimeSeries';
-import { AuditAnalyzer } from '../Panels/AuditAnalyzer';
+export const createDashboard = () =>  {
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-       <SingleStat {...this.props} />
-      </div>
-    );
-  }
-}
+  const initialLayout =  [
+    {
+      content: {
+        panel: 'TimeRange',
+        w: 12,
+        h: 7
+     }, 
+     i: "1", x: 0, y: 21, w: 12, h: 2 },
+    { 
+      content: {
+        panel: 'Filter',
+        w: 12,
+        h: 7
+    }, 
+    i: "2", x: 0, y: 21, w: 12, h: 2 }, 
+  { content: {
+    panel: 'TimeSeries',
+    w: 12,
+    h: 7
+  }, 
+  i: "3", x: 0, y: 7, w: 12, h: 7 },
+    { 
+      content: {
+      panel: 'TimeSeries',
+      w: 12,
+      h: 7
+    }, 
+    i: "4", x: 0, y: 7, w: 12, h: 7 },
+  {
+    content: {
+      panel: 'AuditAnalyzer',
+      w: 12,
+      h: 7
+    },
+    i: "5", x: 0, y: 20, w: 12, h: 15 
+  },
+  ];
 
-export default {
-  layout: [
-    { content: props => <TimeSeries {...props} w={12} h={7} />, 
-      i: "c", x: 0, y: 5, w: 12, h: 7 },
-    { content: props => <TimeSeries {...props} w={12} h={7} />, 
-      i: "e", x: 0, y: 7, w: 12, h: 7 },
-    { content: props => <AuditAnalyzer {...props} w={12} h={7} />,
-      i: "d", x: 0, y: 20, w: 12, h: 15 },
-  ]
+  const dashboardFromLocalStorage = JSON.parse(window.localStorage.getItem('dashboard'));
+
+  return  dashboardFromLocalStorage || {
+    layout: initialLayout
+  };
+
 };
