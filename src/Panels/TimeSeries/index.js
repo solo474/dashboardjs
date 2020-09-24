@@ -69,56 +69,52 @@ export const TimeSeries = (props) => {
           width={props.w * 100}
           height={props.h * 30}
           yDomain={[0, 100]}
-        >
-  <LineSeries
-    color="grey"
-    strokeWidth={firstByteStrokeWidth}
-    curve={'curveMonotoneX'}
-    onNearestX={(datapoint)=>{
-        setTimeCursor(datapoint)
-    }}
-    onSeriesClick={(datapoint)=>{
-      setTimeSelection(datapoint.x);
-    }}
-    onSeriesMouseOver={()=>{
-      setFirstByteStrokeWidth('5px');
-    }}
-    onSeriesMouseOut={()=>{
-      setFirstByteStrokeWidth('2px');
-    }}
+        > 
+        <LineSeries
+          color="grey"
+          strokeWidth={firstByteStrokeWidth}
+          curve={'curveMonotoneX'}
+          onNearestX={(datapoint)=>{
+              setTimeCursor(datapoint)
+          }}
+          onSeriesClick={(datapoint)=>{
+            setTimeSelection(datapoint.x);
+          }}
+          onSeriesMouseOver={()=>{
+            setFirstByteStrokeWidth('5px');
+          }}
+          onSeriesMouseOut={()=>{
+            setFirstByteStrokeWidth('2px');
+          }}
 
-    data={firstByte.map( (number,index) => {
-        return {
-            x: index,
-            y: number
-        }
-    })}/>     
-
-<LineSeries
-    color="green"
-    strokeWidth={firstPaintStrokeWidth}
-    curve={'curveMonotoneX'}
-    onNearestX={(datapoint)=>{
-        setTimeCursor(datapoint)
-    }}
-    onSeriesClick={(datapoint)=>{
-      setTimeSelection(datapoint.x)
-    }}
-    onSeriesMouseOver={()=>{
-      setFirstPaintStrokeWidth('5px');
-    }}
-    onSeriesMouseOut={()=>{
-      setFirstPaintStrokeWidth('2px');
-    }}
-    data={firstPaint.map( (number,index) => {
-        return {
-            x: index,
-            y: number
-        }
-    })}/>     
-
-
-
+          data={firstByte.map( (number,index) => {
+              return {
+                  x: index,
+                  y: number
+              }
+          })}/>    
+        <LineSeries
+            color="green"
+            strokeWidth={firstPaintStrokeWidth}
+            curve={'curveMonotoneX'}
+            onNearestX={(datapoint)=>{
+                setTimeCursor(datapoint)
+            }}
+            onSeriesClick={(datapoint)=>{
+              setTimeSelection(datapoint.x)
+            }}
+            onSeriesMouseOver={()=>{
+              setFirstPaintStrokeWidth('5px');
+            }}
+            onSeriesMouseOut={()=>{
+              setFirstPaintStrokeWidth('2px');
+            }}
+            data={firstPaint.map( (number,index) => {
+                return {
+                    x: index,
+                    y: number
+                }
+            })}/>     
           <XAxis  />
       <YAxis />
     <Crosshair values={[timeCursor]}/>
