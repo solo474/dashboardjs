@@ -69,30 +69,7 @@ export const TimeSeries = (props) => {
           width={props.w * 100}
           height={props.h * 30}
           yDomain={[0, 100]}
-        >
-  <LineSeries
-    color="grey"
-    strokeWidth={firstByteStrokeWidth}
-    curve={'curveMonotoneX'}
-    onNearestX={(datapoint)=>{
-        setTimeCursor(datapoint)
-    }}
-    onSeriesClick={(datapoint)=>{
-      setTimeSelection(datapoint.x);
-    }}
-    onSeriesMouseOver={()=>{
-      setFirstByteStrokeWidth('5px');
-    }}
-    onSeriesMouseOut={()=>{
-      setFirstByteStrokeWidth('2px');
-    }}
-
-    data={firstByte.map( (number,index) => {
-        return {
-            x: index,
-            y: number
-        }
-    })}/>     
+        > 
 
 <LineSeries
     color="green"
@@ -116,7 +93,29 @@ export const TimeSeries = (props) => {
             y: number
         }
     })}/>     
+  <LineSeries
+    color="grey"
+    strokeWidth={firstByteStrokeWidth}
+    curve={'curveMonotoneX'}
+    onNearestX={(datapoint)=>{
+        setTimeCursor(datapoint)
+    }}
+    onSeriesClick={(datapoint)=>{
+      setTimeSelection(datapoint.x);
+    }}
+    onSeriesMouseOver={()=>{
+      setFirstByteStrokeWidth('5px');
+    }}
+    onSeriesMouseOut={()=>{
+      setFirstByteStrokeWidth('2px');
+    }}
 
+    data={firstByte.map( (number,index) => {
+        return {
+            x: index,
+            y: number
+        }
+    })}/>    
 
 
           <XAxis  />
