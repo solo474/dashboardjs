@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet";
 
 import { ThemeProvider } from "emotion-theming";
 import theme from "./Theme";
+import { Topbar } from './Topbar';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
           }`}
           </style>
         </Helmet>
+       <Topbar/>
         <Grid columns={["40px 1fr"]} gap={0}>
           <SideBar />
           <Main />

@@ -15,7 +15,8 @@ export const useRandomNumber = ({ initial = 0, time }) => {
   const [number, setNumber] = useState({ number: initial });
 
   useEffect(() => {
-    const subscriber = window.source.subscribe(val => setNumber({ number: getRandomInt(100) }));
+    const subscriber = window.source
+       .subscribe(val => setNumber({ number: getRandomInt(100) }));
     return () => {
       subscriber.unsubscribe();
       console.log("unmounted");
