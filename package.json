@@ -10,9 +10,11 @@
   "homepage": "https://dba64bwqjx7px.cloudfront.net",
   "dependencies": {
     "@aws-amplify/ui-components": "^0.8.7",
+    "@aws-amplify/ui-react": "^0.2.24",
     "@theme-ui/presets": "0.3.0",
     "ag-grid-community": "^23.2.1",
     "ag-grid-react": "^23.2.1",
+    "aws-amplify": "^3.3.4",
     "emotion": "10.0.27",
     "emotion-theming": "10.0.27",
     "moment": "^2.27.0",
