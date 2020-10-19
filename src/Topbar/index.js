@@ -1,6 +1,11 @@
 import { Box, Flex, Text } from 'rebass';
 import React from 'react';
+import Amplify from 'aws-amplify';
+import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
+import awsconfig from '../amplifyConfig';
+
+Amplify.configure(awsconfig);
 
 export const Topbar = () => {
 
