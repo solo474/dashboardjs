@@ -19,7 +19,7 @@ export const Topbar = () => {
       setUser(authData)
     });
   }, []);
-
+  console.log(AuthState);
   return  <Flex
     px={2}
     color='white'
@@ -30,5 +30,6 @@ export const Topbar = () => {
     <Text p={2} fontWeight='bold'>
        Hello, {user ? user.username : ''}
     </Text>
+    { !user ? <AmplifySignOut/> : '' }
   </Flex>;
 };

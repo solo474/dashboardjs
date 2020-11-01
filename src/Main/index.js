@@ -11,12 +11,15 @@ import { TimeSeries } from '../Panels/TimeSeries';
 import { AuditAnalyzer } from '../Panels/AuditAnalyzer';
 import { TimeRange } from '../Panels/TimeRange';
 import { Filter } from '../Panels/Filter';
+import { World } from '../Panels/World';
+import { IdataApp } from '../Panels/IdataApp';
+
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-
 const ReactGridLayout = WidthProvider(RGL);
 
 const GridElement = ({topBar = true,...props}) => {
+  const [settingsOpen,setSettingsOpen] = useState(false);
   return (
     <Box
       p={0}
@@ -34,12 +37,16 @@ const GridElement = ({topBar = true,...props}) => {
           borderBottom: "1px solid #e5e5e5"
         }}
       >
-        <Grid 
+        <Grid
           columns="1fr 100px"
         >
           <Box></Box>
-          <Box sx={{ textAlign: 'right' }} >
-            <FaCog style={{ textAlign: 'right', cursor: 'pointer' }} />
+          <Box sx={{ textAlign: 'right' }}  >
+            <FaCog style={{ textAlign: 'right', cursor: 'pointer' }}
+              onClick={() => {
+                setSettingsOpen(!settingsOpen);
+              }}
+            />
           </Box>
         </Grid>
       </Box>
@@ -53,6 +60,8 @@ const Panels = {
   Filter,
   TimeSeries,
   AuditAnalyzer,
+  World,
+  IdataApp,
 };
 
 const panelIds = {
@@ -74,7 +83,8 @@ const panelIds = {
   '4': {
     w: 12,
     h: 7,
-    panel: 'TimeSeries'
+    topBar: false,
+    panel: 'IdataApp'
   },
   '5': {
     w: 12,
@@ -87,31 +97,59 @@ const panelIds = {
 const DashboardGrid = () => {
     // layout is an array of objects, see the demo for more complete usage
     const [dashboard,setDashboard] = useState(createDashboard());
+    const [layout,setLayout] = useState([]);
 
     useEffect(()=>{
       window.localStorage.setItem('dashboard',
         JSON.stringify(dashboard));
+
+      const layout = dashboard.layout.map((data) => {
+        console.log('content',data)
+        const content = data.content || {
+          w: 1,
+          h: 1,
+          panel: null
+        };
+        const Panel = content.panel ?
+          Panels[content.panel]
+          : () => null;
+
+        return {
+          ...data,
+          content: <Panel {...content} {...data} onAppChange={(app) => {
+            window.localStorage.setItem('apps',
+              JSON.stringify(Object.assign(
+                {},
+                JSON.parse(window.localStorage.getItem('apps')),
+                {
+                  [app.i]: app.appId
+                }
+              )));
+           }
+          }/>
+        }
+      });
+      setLayout(layout);
     },[dashboard]);
 
-    const layout = dashboard.layout.map((data) => {
-      console.log('content',data)
-      const content = data.content || {
-        w: 1,
-        h: 1,
-        panel: null
-      };
-      const Panel = content.panel ? 
-      Panels[content.panel]
-      : () => null;
-
-      return {
-        ...data,
-        content: <Panel {...content} {...data} />
-      }
-    });
 
     return (
       <div style={{ position: "relative" }}>
+        <button onClick={()=>{
+          setDashboard({
+            layout: [
+              {
+                i: "data-app-"+Math.random(), x: 0, y: 7, w: 12, h: 7,
+                content: panelIds['4']
+              },...layout.map((data) => {
+              return {
+                ...data,
+                content: panelIds[data.i]
+              };
+            })] });
+
+        }} >Add</button>
+
         <ReactGridLayout
           className="layout"
           layout={layout}
@@ -120,9 +158,12 @@ const DashboardGrid = () => {
           draggableHandle={'[data-drag]'}
           onLayoutChange={(layout) => {
             setDashboard({layout: layout.map((data) => {
+              const panel = /data-app/.test(data.i)
+                 ?  panelIds['4']
+                 :  panelIds[data.i]
               return {
                 ...data,
-                content: panelIds[data.i]
+                content: panel
               };
             }) });
           }}
