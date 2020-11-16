@@ -1,19 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
 import { SideBar } from "./Sidebar";
 import { Main } from "./Main";
-import { Grid } from "theme-ui";
+import { Grid,Box } from "theme-ui";
 
 import { Helmet } from "react-helmet";
 
 import { ThemeProvider } from "emotion-theming";
-import theme from "./Theme";
+import light from "./Theme";
+import dark from "./Theme/dark";
 import { Topbar } from './Topbar';
 
 export default function App() {
+  const [theme,setTheme] = useState('dark');
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
+    <ThemeProvider theme={theme === 'light' ? light : dark }>
+      <Box bg={'background'} className="App">
         <Helmet>
           <title>Web page Performance Analytics</title>
           <style>
@@ -23,12 +25,24 @@ export default function App() {
           }`}
           </style>
         </Helmet>
-       <Topbar/>
+       <Topbar
+         onThemeChange={()=>{
+           theme === 'light'
+             ? setTheme('dark')
+             : setTheme('light');
+         }}
+       />
         <Grid columns={["40px 1fr"]} gap={0}>
-          <SideBar />
+          <SideBar
+            onThemeChange={()=>{
+              theme === 'light'
+                ? setTheme('dark')
+                : setTheme('light');
+            }}
+          />
           <Main />
         </Grid>
-      </div>
+      </Box>
     </ThemeProvider>
   );
 }

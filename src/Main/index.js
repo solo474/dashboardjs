@@ -29,7 +29,7 @@ const GridElement = ({topBar = true,...props}) => {
       }}
       {...props}
     >
-      <Box
+      { topBar !== false ? <Box
         data-drag={'data-drag'}
         hidden={topBar === false}
         p={2}
@@ -49,7 +49,7 @@ const GridElement = ({topBar = true,...props}) => {
             />
           </Box>
         </Grid>
-      </Box>
+      </Box> : null }
       {props.children}
     </Box>
   );
@@ -130,26 +130,32 @@ const DashboardGrid = () => {
         }
       });
       setLayout(layout);
+
+
     },[dashboard]);
 
-
-    return (
-      <div style={{ position: "relative" }}>
-        <button onClick={()=>{
-          setDashboard({
-            layout: [
-              {
-                i: "data-app-"+Math.random(), x: 0, y: 7, w: 12, h: 7,
-                content: panelIds['4']
-              },...layout.map((data) => {
+    useEffect(()=>{
+      const eventListener = document.addEventListener('addnewdataapp',()=>{
+        setDashboard({
+          layout: [
+            {
+              i: "data-app-"+Math.random(), x: 0, y: 7, w: 12, h: 7,
+              content: panelIds['4']
+            },...layout.map((data) => {
               return {
                 ...data,
                 content: panelIds[data.i]
               };
             })] });
+      });
 
-        }} >Add</button>
+      return () =>{
+        document.removeEventListener('addnewdataapp',eventListener);
+      }
+    })
 
+    return (
+      <div style={{ position: "relative" }}>
         <ReactGridLayout
           className="layout"
           layout={layout}
@@ -170,7 +176,7 @@ const DashboardGrid = () => {
         >
           {layout.map(data => {
             return (
-              <GridElement key={data.i} topBar={data.topBar} >
+              <GridElement key={data.i} topBar={false} >
                 {data.content}
               </GridElement>
             );
@@ -186,7 +192,7 @@ export const Main = () => {
 
   return (
     <Grid>
-      <Box bg={"white"} p={10}>
+      <Box bg={"gray"} p={10}>
         <TimeContext.Provider value={{
           timeCursor,
           setTimeCursor,

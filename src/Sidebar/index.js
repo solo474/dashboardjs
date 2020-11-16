@@ -4,7 +4,6 @@ import * as icons from "react-icons/fa";
 import { useTheme } from "emotion-theming";
 import styled from "@emotion/styled";
 import data from "../data2";
-
 const ActionButton = ({ id, highlight, color, size, ...remainingProps }) => {
   const Icon = icons[id];
   return (

@@ -11,6 +11,7 @@
   "dependencies": {
     "@aws-amplify/ui-components": "^0.8.7",
     "@aws-amplify/ui-react": "^0.2.24",
+    "@modulz/radix": "^0.0.1-beta.44",
     "@theme-ui/presets": "0.3.0",
     "ag-grid-community": "^23.2.1",
     "ag-grid-react": "^23.2.1",

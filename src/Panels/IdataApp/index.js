@@ -5,10 +5,13 @@ import Draggable from 'react-draggable'; // The default
 
 import $script from 'scriptjs';
 import { Grid } from 'theme-ui';
-import { FaCog } from 'react-icons/fa';
+import { FaCarrot, FaCog, FaCross, FaWindowClose } from 'react-icons/fa';
+import { DropdownMenu, Menu, MenuItem, MenuItemLabel, MenuItemSeparator,ChromelessButton } from '@modulz/radix';
 
 export const IdataApp = React.memo(({i,h = null,onAppChange = () => null }) => {
+
   const initialAppId = JSON.parse(window.localStorage.getItem('apps') ||  {})[i];
+
   const [settingsOpen,setSettingsOpen] = useState(false);
   const [appId,setAppId] = useState( initialAppId || 'random-timeseries');
   const [selectedAppId,setSelectedAppId] = useState(initialAppId || 'random-timeseries');
@@ -23,7 +26,7 @@ export const IdataApp = React.memo(({i,h = null,onAppChange = () => null }) => {
   });
 
   useLayoutEffect(()=>{
-    $script(`https://unpkg.com/@idata-apps/${appId}`, function() {
+    $script(`//unpkg.com/@idata-apps/${appId}`, function() {
       window[`idata-apps-${appId}`].default.render(`panel-${i}`)
     });
     onAppChange({
@@ -45,10 +48,9 @@ export const IdataApp = React.memo(({i,h = null,onAppChange = () => null }) => {
       >
         <Box></Box>
         <Box sx={{ textAlign: 'right' }}  >
-          <FaCog style={{ textAlign: 'right', cursor: 'pointer' }}
-                 onClick={() => {
-                   setSettingsOpen(!settingsOpen);
-                 }}
+          <SettingsMenu
+            setSettingsOpen={setSettingsOpen}
+            settingsOpen={settingsOpen}
           />
         </Box>
       </Grid>
@@ -85,7 +87,7 @@ export const IdataApp = React.memo(({i,h = null,onAppChange = () => null }) => {
           >
             <Box></Box>
             <Box sx={{ textAlign: 'right' }}  >
-              <FaCog style={{ textAlign: 'right', cursor: 'pointer' }}
+              <FaWindowClose style={{ textAlign: 'right', cursor: 'pointer' }}
                      onClick={() => {
                        setSettingsOpen(!settingsOpen);
                      }}
@@ -122,3 +124,26 @@ export const IdataApp = React.memo(({i,h = null,onAppChange = () => null }) => {
     </Portal> : null }
   </div>;
 });
+
+
+function SettingsMenu({setSettingsOpen,settingsOpen}) {
+  return (
+
+    <DropdownMenu
+      button={ <ChromelessButton><FaCog style={{ textAlign: 'right', cursor: 'pointer' }}
+
+      /></ChromelessButton>}
+      menu={
+        <Menu>
+          <MenuItem label="change data app" onSelect={()=>{
+              setSettingsOpen(!settingsOpen);
+          }} />
+          <MenuItem label="Data sources" />
+          <MenuItem label="Events" />
+          <MenuItemSeparator />
+          <MenuItemLabel>An item label</MenuItemLabel>
+        </Menu>
+      }
+    />
+  );
+}
