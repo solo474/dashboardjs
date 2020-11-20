@@ -120,7 +120,7 @@ const DashboardGrid = () => {
             window.localStorage.setItem('apps',
               JSON.stringify(Object.assign(
                 {},
-                JSON.parse(window.localStorage.getItem('apps')),
+                JSON.parse(window.localStorage.getItem('apps') || '{}'),
                 {
                   [app.i]: app.appId
                 }
