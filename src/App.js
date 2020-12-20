@@ -1,23 +1,22 @@
-import React, { useState } from "react";
-import "./styles.css";
-import { SideBar } from "./Sidebar";
-import { Main } from "./Main";
-import { Grid,Box } from "theme-ui";
+import React, { useState } from 'react';
+import './styles.css';
+import { Box } from 'theme-ui';
 
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 
-import { ThemeProvider } from "emotion-theming";
-import light from "./Theme";
-import dark from "./Theme/dark";
-import { Topbar } from './Topbar';
+import { ThemeProvider } from 'emotion-theming';
+import light from './Theme';
+import dark from './Theme/dark';
+import Choreography from './pages/Choreography';
+import Home from './pages/Home';
+import { Router } from '@reach/router';
 
 export default function App() {
-  const [theme,setTheme] = useState('dark');
+  const [theme, setTheme] = useState('dark');
   return (
-    <ThemeProvider theme={theme === 'light' ? light : dark }>
+    <ThemeProvider theme={theme === 'light' ? light : dark}>
       <Box bg={'background'} className="App">
         <Helmet>
-          <title>Web page Performance Analytics</title>
           <style>
             {`html,body {
             margin: 0;
@@ -25,23 +24,17 @@ export default function App() {
           }`}
           </style>
         </Helmet>
-       <Topbar
-         onThemeChange={()=>{
-           theme === 'light'
-             ? setTheme('dark')
-             : setTheme('light');
-         }}
-       />
-        <Grid columns={["40px 1fr"]} gap={0}>
-          <SideBar
-            onThemeChange={()=>{
-              theme === 'light'
-                ? setTheme('dark')
-                : setTheme('light');
-            }}
+        <Router>
+          <Home path={'/'}
+            theme={theme}
+            setTheme={setTheme}
           />
-          <Main />
-        </Grid>
+          <Choreography
+            path={'/choreography/:id/:tagline'}
+            theme={theme}
+            setTheme={setTheme}
+          />
+        </Router>
       </Box>
     </ThemeProvider>
   );

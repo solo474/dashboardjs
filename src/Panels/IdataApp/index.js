@@ -8,15 +8,15 @@ import { Grid } from 'theme-ui';
 import { FaCarrot, FaCog, FaCross, FaWindowClose } from 'react-icons/fa';
 import { DropdownMenu, Menu, MenuItem, MenuItemLabel, MenuItemSeparator,ChromelessButton } from '@modulz/radix';
 
-export const IdataApp = React.memo(({i,h = null,onAppChange = () => null }) => {
+export const IdataApp = React.memo(({i,h = null,onAppChange = () => null,apps }) => {
 
-  const initialAppId = JSON.parse(window.localStorage.getItem('apps') ||  {})[i];
+  const initialAppId = apps[i].name;
 
   const [settingsOpen,setSettingsOpen] = useState(false);
   const [appId,setAppId] = useState( initialAppId || 'random-timeseries');
   const [selectedAppId,setSelectedAppId] = useState(initialAppId || 'random-timeseries');
 
-
+console.log(initialAppId);
   useEffect(()=>{
     window.onmessage = function(event){
       if (/idata-app-/.test(event.data)) {
@@ -27,7 +27,7 @@ export const IdataApp = React.memo(({i,h = null,onAppChange = () => null }) => {
 
   useLayoutEffect(()=>{
     $script(`//unpkg.com/@idata-apps/${appId}`, function() {
-      window[`idata-apps-${appId}`].default.render(`panel-${i}`)
+      window[`idata-apps-${appId}`].default.render(`panel-${i}`,{id: i})
     });
     onAppChange({
       appId: appId,
@@ -37,17 +37,17 @@ export const IdataApp = React.memo(({i,h = null,onAppChange = () => null }) => {
 
   return <div>
     <Box
-      data-drag={'data-drag'}
-      p={2}
+
+
       sx={{
         borderBottom: "1px solid #e5e5e5"
       }}
     >
       <Grid
-        columns="1fr 100px"
+        columns="1fr 40px"
       >
-        <Box></Box>
-        <Box sx={{ textAlign: 'right' }}  >
+        <Box data-drag={'data-drag'} p={2} > </Box>
+        <Box sx={{ textAlign: 'center' }} p={2} >
           <SettingsMenu
             setSettingsOpen={setSettingsOpen}
             settingsOpen={settingsOpen}
@@ -110,7 +110,14 @@ export const IdataApp = React.memo(({i,h = null,onAppChange = () => null }) => {
 
         </Box>
         <Box p={2}>
-          <Button onClick={()=>{
+
+          <Button
+            onTouchStart={(event)=>{
+              event.stopPropagation();
+              event.preventDefault();
+            }}
+            onClick={(event)=>{
+            event.stopPropagation();
             setAppId(selectedAppId);
             setSettingsOpen(!settingsOpen);
           }}>

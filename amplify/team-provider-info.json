@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-dashboardjs-dev-101622-authRole",
+      "UnauthRoleArn": "arn:aws:iam::676605651281:role/amplify-dashboardjs-dev-101622-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::676605651281:role/amplify-dashboardjs-dev-101622-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-dashboardjs-dev-101622-deployment",
+      "UnauthRoleName": "amplify-dashboardjs-dev-101622-unauthRole",
+      "StackName": "amplify-dashboardjs-dev-101622",
+      "StackId": "arn:aws:cloudformation:us-east-1:676605651281:stack/amplify-dashboardjs-dev-101622/9b493d90-3099-11eb-b2da-0ae6cf5d268f",
+      "AmplifyAppId": "d2xocj4jgq7kbo"
+    }
+  }
+}
